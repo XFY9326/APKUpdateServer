@@ -1,0 +1,16 @@
+# Gradle
+.gradle
+**/build/
+!src/**/build/
+
+# General
+.DS_Store
+
+# Kotlin template
+*.class
+
+# Log file
+*.log
+
+# Test resources
+/db/
