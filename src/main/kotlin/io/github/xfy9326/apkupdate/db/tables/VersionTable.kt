@@ -10,7 +10,7 @@ object VersionTable : IntIdTable("versions") {
     val channel = text("channel")
     val versionCode = integer("version_code")
     val versionName = text("version_name")
-    val forceUpdate = bool("force_update").default(false)
+    val forcedUpdate = bool("forced_update").default(false)
     val changeLog = text("change_log")
 
     init {

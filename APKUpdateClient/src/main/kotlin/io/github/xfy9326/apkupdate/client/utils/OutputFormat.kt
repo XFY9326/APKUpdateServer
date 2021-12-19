@@ -20,7 +20,7 @@ fun Version.print() =
         buildString {
             appendLine("VersionCode: $versionCode")
             appendLine("VersionName: $versionName")
-            appendLine("ForceUpdate: $forceUpdate")
+            appendLine("ForceUpdate: $forcedUpdate")
             appendLine("ChangeLog: ")
             appendLine("\t" + changeLog.replace("\n", "\n\t"))
             appendLine("Download Sources: ")

@@ -7,6 +7,6 @@ data class Version(
     val versionCode: Int,
     val versionName: String,
     val changeLog: String,
-    val forceUpdate: Boolean,
+    val forcedUpdate: Boolean,
     val downloadSources: List<DownloadSource>
 )

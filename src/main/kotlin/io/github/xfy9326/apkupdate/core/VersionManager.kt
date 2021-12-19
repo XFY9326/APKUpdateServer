@@ -45,7 +45,7 @@ object VersionManager {
                     it[channel] = channelName
                     it[versionCode] = version.versionCode
                     it[versionName] = version.versionName
-                    it[forceUpdate] = version.forceUpdate
+                    it[forcedUpdate] = version.forcedUpdate
                     it[changeLog] = version.changeLog
                 }
                 val result = DownloadSourceTable.batchInsert(version.downloadSources, shouldReturnGeneratedValues = false) {

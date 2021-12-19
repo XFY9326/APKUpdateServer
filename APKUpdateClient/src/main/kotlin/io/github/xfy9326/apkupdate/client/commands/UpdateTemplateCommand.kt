@@ -14,7 +14,7 @@ class UpdateTemplateCommand : AbstractOutputCommand(name = "update-template", he
             versionCode = 1,
             versionName = "1.0",
             changeLog = "",
-            forceUpdate = false,
+            forcedUpdate = false,
             downloadSources = listOf(
                 DownloadSource(
                     name = "",

@@ -21,7 +21,7 @@ object UpdateManager {
             versionCode = versionCode,
             versionName = versionName,
             changeLog = changeLog,
-            forceUpdate = needsForceUpdate ?: forceUpdate,
+            forcedUpdate = needsForceUpdate ?: forceUpdate,
             downloadSources = downloadSources.map {
                 DownloadSource(
                     name = it.name,
@@ -54,9 +54,9 @@ object UpdateManager {
                 latest.convertToVersion()
             } else {
                 val needsForceUpdate = !versionQuery.adjustSlice {
-                    slice(VersionTable.forceUpdate)
+                    slice(VersionTable.forcedUpdate)
                 }.adjustWhere {
-                    this?.and(VersionTable.forceUpdate eq true) ?: (VersionTable.forceUpdate eq true)
+                    this?.and(VersionTable.forcedUpdate eq true) ?: (VersionTable.forcedUpdate eq true)
                 }.empty()
                 latest.convertToVersion(needsForceUpdate)
             }

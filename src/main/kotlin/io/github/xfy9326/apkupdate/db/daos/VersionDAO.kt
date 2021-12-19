@@ -15,7 +15,7 @@ class VersionDAO(id: EntityID<Int>) : IntEntity(id) {
     var channel by VersionTable.channel
     var versionCode by VersionTable.versionCode
     var versionName by VersionTable.versionName
-    var forceUpdate by VersionTable.forceUpdate
+    var forceUpdate by VersionTable.forcedUpdate
     var changeLog by VersionTable.changeLog
     val downloadSources by DownloadSourceDAO referrersOn DownloadSourceTable.version
 }
