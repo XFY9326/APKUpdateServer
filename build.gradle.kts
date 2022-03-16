@@ -33,18 +33,18 @@ repositories {
 dependencies {
     api(project(":APKUpdateBeans-Server"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
-    implementation("com.github.ajalt.clikt:clikt:3.3.0")
+    implementation("com.github.ajalt.clikt:clikt:3.4.0")
 
     implementation("org.xerial:sqlite-jdbc:3.36.0.3")
 
-    implementation("org.jetbrains.exposed:exposed-core:0.36.1")
-    implementation("org.jetbrains.exposed:exposed-dao:0.36.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.36.1")
+    implementation("org.jetbrains.exposed:exposed-core:0.37.3")
+    implementation("org.jetbrains.exposed:exposed-dao:0.37.3")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.37.3")
 
-    implementation("ch.qos.logback:logback-classic:1.2.8")
+    implementation("ch.qos.logback:logback-classic:1.2.11")
 
     implementation("io.ktor:ktor-server-core:1.6.7")
     implementation("io.ktor:ktor-server-cio:1.6.7")
@@ -52,5 +52,5 @@ dependencies {
     implementation("io.ktor:ktor-auth:1.6.7")
 
     testImplementation(kotlin("test"))
-    testImplementation("io.ktor:ktor-server-tests:1.6.7")
+    testImplementation("io.ktor:ktor-server-test-host:1.6.7")
 }

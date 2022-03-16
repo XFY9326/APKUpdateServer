@@ -109,7 +109,7 @@ class APIClient(private val server: String, private val token: String? = null) :
         handleAuthAPIRequest("$server?project=$project", HttpMethod.Delete)
 
     override suspend fun addVersion(project: String, channel: String, version: Version): OperationStatus =
-        handleAuthAPIRequest("$server/$project/$channel", HttpMethod.Put, project)
+        handleAuthAPIRequest("$server/$project/$channel", HttpMethod.Put, project, version)
 
     override suspend fun removeVersion(project: String, channel: String, version: Int): OperationStatus =
         handleAuthAPIRequest("$server/$project/$channel?version=$version", HttpMethod.Delete, project)

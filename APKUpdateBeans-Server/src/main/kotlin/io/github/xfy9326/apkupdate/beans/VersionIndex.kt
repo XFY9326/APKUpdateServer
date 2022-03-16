@@ -7,3 +7,6 @@ data class VersionIndex(
     val versionCode: Int,
     val channel: String
 )
+
+fun Version.toVersionIndex(channel: String): VersionIndex =
+    VersionIndex(versionCode, channel)

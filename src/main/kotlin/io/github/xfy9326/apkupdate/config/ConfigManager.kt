@@ -17,9 +17,13 @@ fun configureServerConfig(config: IServerConfig) {
     if (globalConfig == null) {
         globalConfig = config
     } else {
-        error("Server config has been!")
+        error("Server config has been set!")
     }
 }
+
+@Synchronized
+fun hasServerConfig(): Boolean =
+    globalConfig != null
 
 private const val DEFAULT_SERVER_CONFIG_NAME = "config.default.json"
 

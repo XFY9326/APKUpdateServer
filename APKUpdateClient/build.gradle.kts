@@ -57,7 +57,7 @@ tasks.withType<KotlinCompile> {
 
 dependencies {
     api(project(":APKUpdateBeans-Server"))
-    implementation("com.github.ajalt.clikt:clikt:3.3.0")
+    implementation("com.github.ajalt.clikt:clikt:3.4.0")
     implementation("io.ktor:ktor-client-cio:1.6.7")
     implementation("io.ktor:ktor-client-serialization:1.6.7")
     implementation("io.ktor:ktor-client-auth:1.6.7")

@@ -5,4 +5,5 @@ interface IServerConfig {
     val port: Int
     val token: String
     val prettyJson: Boolean
+    val dbPath: String
 }

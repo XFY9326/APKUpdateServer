@@ -9,7 +9,7 @@ import java.security.MessageDigest
 
 const val AUTH_DIGEST_ADMIN = "admin-auth"
 
-private fun String.getAuthDigest(): ByteArray =
+fun String.getAuthDigest(): ByteArray =
     MessageDigest.getInstance(AuthDetails.AUTH_DIGEST_ALGORITHM).digest(toByteArray())
 
 fun Application.configureAuth() {
