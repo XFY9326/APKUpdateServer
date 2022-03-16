@@ -46,11 +46,11 @@ dependencies {
 
     implementation("ch.qos.logback:logback-classic:1.2.11")
 
-    implementation("io.ktor:ktor-server-core:1.6.7")
-    implementation("io.ktor:ktor-server-cio:1.6.7")
-    implementation("io.ktor:ktor-serialization:1.6.7")
-    implementation("io.ktor:ktor-auth:1.6.7")
+    implementation("io.ktor:ktor-server-core:1.6.8")
+    implementation("io.ktor:ktor-server-cio:1.6.8")
+    implementation("io.ktor:ktor-serialization:1.6.8")
+    implementation("io.ktor:ktor-auth:1.6.8")
 
     testImplementation(kotlin("test"))
-    testImplementation("io.ktor:ktor-server-test-host:1.6.7")
+    testImplementation("io.ktor:ktor-server-test-host:1.6.8")
 }
