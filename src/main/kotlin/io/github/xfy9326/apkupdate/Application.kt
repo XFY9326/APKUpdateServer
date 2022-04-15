@@ -11,7 +11,10 @@ import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
-import io.github.xfy9326.apkupdate.config.*
+import io.github.xfy9326.apkupdate.config.IServerConfig
+import io.github.xfy9326.apkupdate.config.ServerConfig
+import io.github.xfy9326.apkupdate.config.readServerConfig
+import io.github.xfy9326.apkupdate.config.writeDefaultServerConfigInDir
 import io.github.xfy9326.apkupdate.server.launchServer
 import java.nio.file.Path
 
@@ -35,8 +38,7 @@ private class Launch : CliktCommand(help = "Launch server"), IServerConfig {
     }
 
     override fun run() {
-        configureServerConfig(config?.readServerConfig() ?: this)
-        launchServer()
+        launchServer(config?.readServerConfig() ?: this)
     }
 }
 

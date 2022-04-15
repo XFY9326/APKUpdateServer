@@ -55,4 +55,6 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation("io.ktor:ktor-server-test-host:2.0.0")
+    testImplementation("io.ktor:ktor-client-auth:2.0.0")
+    testImplementation("io.ktor:ktor-client-content-negotiation:2.0.0")
 }

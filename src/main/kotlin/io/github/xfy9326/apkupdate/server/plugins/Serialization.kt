@@ -1,6 +1,6 @@
 package io.github.xfy9326.apkupdate.server.plugins
 
-import io.github.xfy9326.apkupdate.config.GlobalConfig
+import io.github.xfy9326.apkupdate.config.IServerConfig
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
@@ -11,11 +11,11 @@ private var generalJson: Json? = null
 val GeneralJson: Json
     get() = generalJson ?: error("Serialization module hasn't been initialized yet!")
 
-fun Application.configureSerialization() {
+fun Application.configureSerialization(config: IServerConfig) {
     generalJson = Json {
         encodeDefaults = true
         ignoreUnknownKeys = true
-        prettyPrint = GlobalConfig.prettyJson
+        prettyPrint = config.prettyJson
     }
     install(ContentNegotiation) {
         json(GeneralJson)

@@ -20,6 +20,9 @@ private const val SIZE = "size"
 
 fun Application.configureRouting() {
     routing {
+        head("/") {
+            call.respond(HttpStatusCode.OK)
+        }
         get("/") {
             call.respond(HttpStatusCode.OK)
         }

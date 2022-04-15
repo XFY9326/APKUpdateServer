@@ -2,7 +2,7 @@
 
 package io.github.xfy9326.apkupdate.db
 
-import io.github.xfy9326.apkupdate.config.GlobalConfig
+import io.github.xfy9326.apkupdate.config.IServerConfig
 import io.github.xfy9326.apkupdate.db.tables.DownloadSourceTable
 import io.github.xfy9326.apkupdate.db.tables.ProjectTable
 import io.github.xfy9326.apkupdate.db.tables.VersionTable
@@ -16,11 +16,11 @@ object ApplicationDB {
     val sqliteDB: Database
         get() = internalSqliteDB ?: error("Database hasn't been initialized yet!")
 
-    fun initDB() {
-        require(File(GlobalConfig.dbPath).let {
+    fun initDB(config: IServerConfig) {
+        require(File(config.dbPath).let {
             it.exists() || it.parentFile?.isDirectory != false || it.parentFile?.mkdirs() != false
         })
-        internalSqliteDB = Database.connect("jdbc:sqlite:${GlobalConfig.dbPath}?foreign_keys=on", "org.sqlite.JDBC")
+        internalSqliteDB = Database.connect("jdbc:sqlite:${config.dbPath}?foreign_keys=on", "org.sqlite.JDBC")
         transaction {
             SchemaUtils.create(ProjectTable, VersionTable, DownloadSourceTable)
         }

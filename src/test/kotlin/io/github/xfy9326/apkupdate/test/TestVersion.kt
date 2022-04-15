@@ -79,7 +79,7 @@ class TestVersion {
             }
             assertEquals(VersionManager.addVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION), OperationStatus.SUCCESS)
             it.get("/$TEST_PROJECT/$TEST_CHANNEL").apply {
-                assertEquals(TEST_VERSION.downloadSources[0].url, headers[HttpHeaders.Location])
+                assertEquals(HttpStatusCode.OK, status)
             }
             assertEquals(OperationStatus.SUCCESS, VersionManager.deleteVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION.versionCode))
         }
