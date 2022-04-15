@@ -1,9 +1,9 @@
 package io.github.xfy9326.apkupdate.server.plugins
 
 import io.github.xfy9326.apkupdate.config.GlobalConfig
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.serialization.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.contentnegotiation.*
 import kotlinx.serialization.json.Json
 
 private var generalJson: Json? = null

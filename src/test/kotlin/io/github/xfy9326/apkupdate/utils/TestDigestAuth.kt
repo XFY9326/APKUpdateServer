@@ -1,26 +1,32 @@
 package io.github.xfy9326.apkupdate.utils
 
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.auth.*
-import io.ktor.server.testing.*
 import io.ktor.util.*
 import java.security.MessageDigest
 import kotlin.collections.set
 
-fun TestApplicationEngine.handleAuthRequest(
+suspend fun HttpClient.authRequest(
     provider: TestDigestAuthProvider,
-    method: HttpMethod,
+    httpMethod: HttpMethod,
     uri: String,
-    setup: TestApplicationRequest.() -> Unit = {}
-): TestApplicationCall {
-    handleRequest(method, uri, setup).apply {
-        return if (provider.parseResponseHeaders(response)) {
-            handleRequest(method, uri) {
-                setup()
+    setup: (HttpRequestBuilder) -> Unit = {}
+): HttpResponse {
+    return request(uri) {
+        method = httpMethod
+        setup(this)
+    }.let {
+        if (provider.parseResponseHeaders(it)) {
+            request(uri) {
+                method = httpMethod
+                setup(this)
                 provider.addRequestHeaders(this)
             }
         } else {
-            this
+            it
         }
     }
 }
@@ -39,7 +45,7 @@ class TestDigestAuthProvider(
 
     private var requestCounter: Int = 0
 
-    fun parseResponseHeaders(response: TestApplicationResponse): Boolean {
+    fun parseResponseHeaders(response: HttpResponse): Boolean {
         val headerValue = response.headers[HttpHeaders.WWWAuthenticate]
         if (headerValue.isNullOrEmpty()) return false
         val authHeader = parseAuthorizationHeader(headerValue) ?: return false
@@ -61,16 +67,17 @@ class TestDigestAuthProvider(
         return true
     }
 
-    fun addRequestHeaders(request: TestApplicationRequest) {
+    fun addRequestHeaders(request: HttpRequestBuilder) {
         val nonceCount = ++requestCounter
         val methodName = request.method.value.uppercase()
+        val url = request.url.buildString()
 
         val nonce = serverNonce!!
         val serverOpaque = opaque
         val actualQop = qop
 
         val start = hex("${username}:$realm:${password}".makeDigest())
-        val end = hex("$methodName:${request.uri}".makeDigest())
+        val end = hex("$methodName:${url}".makeDigest())
         val tokenSequence = if (actualQop == null) {
             listOf(start, nonce, end)
         } else {
@@ -89,13 +96,13 @@ class TestDigestAuthProvider(
                 @Suppress("SpellCheckingInspection")
                 this["cnonce"] = clientNonce
                 this["response"] = hex(token)
-                this["uri"] = request.uri
+                this["uri"] = url
                 actualQop?.let { this["qop"] = it }
                 this["nc"] = nonceCount.toString()
             }
         )
 
-        request.addHeader(HttpHeaders.Authorization, auth.render())
+        request.headers.append(HttpHeaders.Authorization, auth.render())
     }
 
     private fun String.makeDigest(): ByteArray =

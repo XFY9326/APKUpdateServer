@@ -25,8 +25,9 @@ tasks.withType<KotlinCompile> {
 dependencies {
     implementation(project(":APKUpdateBeans-Base"))
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation("io.ktor:ktor-client-okhttp:1.6.7")
-    implementation("io.ktor:ktor-client-serialization:1.6.7")
+    implementation("io.ktor:ktor-client-okhttp:2.0.0")
+    implementation("io.ktor:ktor-client-content-negotiation:2.0.0")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0")
 
     testImplementation(kotlin("test"))
 }

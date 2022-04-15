@@ -4,7 +4,7 @@ import io.github.xfy9326.apkupdate.config.GlobalConfig
 import io.github.xfy9326.apkupdate.config.IServerConfig
 import io.github.xfy9326.apkupdate.config.ServerConfig
 import io.github.xfy9326.apkupdate.server.plugins.*
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 

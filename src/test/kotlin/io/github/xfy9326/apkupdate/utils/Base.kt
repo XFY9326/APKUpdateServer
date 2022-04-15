@@ -6,14 +6,17 @@ import io.github.xfy9326.apkupdate.config.ServerConfig
 import io.github.xfy9326.apkupdate.config.configureServerConfig
 import io.github.xfy9326.apkupdate.config.hasServerConfig
 import io.github.xfy9326.apkupdate.server.module
-import io.ktor.application.*
+import io.ktor.client.*
 import io.ktor.server.testing.*
 
-fun <R> withTestServer(test: TestApplicationEngine.() -> R) {
+fun <R> withTestServer(test: suspend (HttpClient) -> R) {
     if (!hasServerConfig()) {
         configureServerConfig(ServerConfig(prettyJson = true, dbPath = "db-test/app.db"))
     }
-    withTestApplication(Application::module, test)
+    testApplication {
+        application { module() }
+        test(client)
+    }
 }
 
 fun getAuthProvider(): TestDigestAuthProvider =

@@ -4,11 +4,10 @@ import io.github.xfy9326.apkupdate.beans.OperationStatus
 import io.github.xfy9326.apkupdate.beans.VersionIndex
 import io.github.xfy9326.apkupdate.core.ProjectManager
 import io.github.xfy9326.apkupdate.core.VersionManager
-import io.github.xfy9326.apkupdate.server.plugins.GeneralJson
 import io.github.xfy9326.apkupdate.utils.*
+import io.ktor.client.call.*
+import io.ktor.client.request.*
 import io.ktor.http.*
-import io.ktor.server.testing.*
-import kotlinx.serialization.decodeFromString
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -30,18 +29,15 @@ class TestVersion {
         }
     }
 
-    private inline fun <reified T> TestApplicationCall.receive(): T? =
-        response.content?.let { GeneralJson.decodeFromString<T>(it) }
-
     @Test
     fun testLatestVersion() {
         withTestServer {
-            handleRequest(HttpMethod.Get, "/$TEST_PROJECT/$TEST_CHANNEL/latest").apply {
-                assertEquals(HttpStatusCode.NotFound, response.status())
+            it.get("/$TEST_PROJECT/$TEST_CHANNEL/latest").apply {
+                assertEquals(HttpStatusCode.NotFound, status)
             }
             assertEquals(OperationStatus.SUCCESS, VersionManager.addVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION))
-            handleRequest(HttpMethod.Get, "/$TEST_PROJECT/$TEST_CHANNEL/latest").apply {
-                assertEquals(TEST_VERSION, receive())
+            it.get("/$TEST_PROJECT/$TEST_CHANNEL/latest").apply {
+                assertEquals(TEST_VERSION, body())
             }
             assertEquals(OperationStatus.SUCCESS, VersionManager.deleteVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION.versionCode))
         }
@@ -50,12 +46,12 @@ class TestVersion {
     @Test
     fun testVersion() {
         withTestServer {
-            handleRequest(HttpMethod.Get, "/$TEST_PROJECT/version/${TEST_VERSION.versionCode}").apply {
-                assertEquals(HttpStatusCode.NotFound, response.status())
+            it.get("/$TEST_PROJECT/version/${TEST_VERSION.versionCode}").apply {
+                assertEquals(HttpStatusCode.NotFound, status)
             }
             assertEquals(VersionManager.addVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION), OperationStatus.SUCCESS)
-            handleRequest(HttpMethod.Get, "/$TEST_PROJECT/version/${TEST_VERSION.versionCode}").apply {
-                assertEquals(TEST_VERSION, receive())
+            it.get("/$TEST_PROJECT/version/${TEST_VERSION.versionCode}").apply {
+                assertEquals(TEST_VERSION, body())
             }
             assertEquals(OperationStatus.SUCCESS, VersionManager.deleteVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION.versionCode))
         }
@@ -64,12 +60,12 @@ class TestVersion {
     @Test
     fun testVersionList() {
         withTestServer {
-            handleRequest(HttpMethod.Get, "/$TEST_PROJECT/version").apply {
-                assertEquals(emptyList<VersionIndex>(), receive())
+            it.get("/$TEST_PROJECT/version").apply {
+                assertEquals(emptyList<VersionIndex>(), body())
             }
             assertEquals(VersionManager.addVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION), OperationStatus.SUCCESS)
-            handleRequest(HttpMethod.Get, "/$TEST_PROJECT/version").apply {
-                assertEquals(TEST_VERSION_INDEX_LIST, receive())
+            it.get("/$TEST_PROJECT/version").apply {
+                assertEquals(TEST_VERSION_INDEX_LIST, body())
             }
             assertEquals(OperationStatus.SUCCESS, VersionManager.deleteVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION.versionCode))
         }
@@ -78,12 +74,12 @@ class TestVersion {
     @Test
     fun testLatestDownload() {
         withTestServer {
-            handleRequest(HttpMethod.Get, "/$TEST_PROJECT/$TEST_CHANNEL").apply {
-                assertEquals(HttpStatusCode.NotFound, response.status())
+            it.get("/$TEST_PROJECT/$TEST_CHANNEL").apply {
+                assertEquals(HttpStatusCode.NotFound, status)
             }
             assertEquals(VersionManager.addVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION), OperationStatus.SUCCESS)
-            handleRequest(HttpMethod.Get, "/$TEST_PROJECT/$TEST_CHANNEL").apply {
-                assertEquals(TEST_VERSION.downloadSources[0].url, response.headers[HttpHeaders.Location])
+            it.get("/$TEST_PROJECT/$TEST_CHANNEL").apply {
+                assertEquals(TEST_VERSION.downloadSources[0].url, headers[HttpHeaders.Location])
             }
             assertEquals(OperationStatus.SUCCESS, VersionManager.deleteVersion(TEST_PROJECT, TEST_CHANNEL, TEST_VERSION.versionCode))
         }

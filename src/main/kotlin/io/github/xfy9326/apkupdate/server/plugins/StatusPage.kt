@@ -3,33 +3,33 @@ package io.github.xfy9326.apkupdate.server.plugins
 import io.github.xfy9326.apkupdate.error.AuthException
 import io.github.xfy9326.apkupdate.error.InputUrlException
 import io.github.xfy9326.apkupdate.error.UnknownProjectException
-import io.ktor.application.*
-import io.ktor.features.*
 import io.ktor.http.*
-import io.ktor.response.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.response.*
 import kotlinx.serialization.SerializationException
 import org.sqlite.SQLiteException
 
 fun Application.configureStatusPage() {
     install(StatusPages) {
-        exception<Throwable> {
+        exception<Throwable> { call, cause ->
             call.respond(HttpStatusCode.InternalServerError)
-            throw it
+            throw cause
         }
-        exception<SQLiteException> {
+        exception<SQLiteException> { call, cause ->
             call.respond(HttpStatusCode.InternalServerError)
-            throw it
+            throw cause
         }
-        exception<InputUrlException> {
+        exception<InputUrlException> { call, _ ->
             call.respond(HttpStatusCode.BadRequest)
         }
-        exception<SerializationException> {
+        exception<SerializationException> { call, _ ->
             call.respond(HttpStatusCode.BadRequest)
         }
-        exception<UnknownProjectException> {
+        exception<UnknownProjectException> { call, _ ->
             call.respond(HttpStatusCode.NotFound)
         }
-        exception<AuthException> {
+        exception<AuthException> { call, _ ->
             call.respond(HttpStatusCode.Unauthorized)
         }
     }

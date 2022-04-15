@@ -13,12 +13,12 @@ class TestProjectAdmin {
         withTestServer {
             val authProvider = getAuthProvider()
             assert(!hasProject(TEST_PROJECT))
-            handleAuthRequest(authProvider, HttpMethod.Put, "/?project=$TEST_PROJECT").apply {
-                assertEquals(OperationStatus.SUCCESS.statusCode, response.status()?.value)
+            it.authRequest(authProvider, HttpMethod.Put, "/?project=$TEST_PROJECT").apply {
+                assertEquals(OperationStatus.SUCCESS.statusCode, status.value)
             }
             assert(hasProject(TEST_PROJECT))
-            handleAuthRequest(authProvider, HttpMethod.Put, "/?project=$TEST_PROJECT").apply {
-                assertEquals(OperationStatus.EXISTS.statusCode, response.status()?.value)
+            it.authRequest(authProvider, HttpMethod.Put, "/?project=$TEST_PROJECT").apply {
+                assertEquals(OperationStatus.EXISTS.statusCode, status.value)
             }
             assertEquals(OperationStatus.SUCCESS, ProjectManager.deleteProject(TEST_PROJECT))
         }
@@ -29,12 +29,12 @@ class TestProjectAdmin {
         withTestServer {
             val authProvider = getAuthProvider()
             assertEquals(OperationStatus.SUCCESS, ProjectManager.createProject(TEST_PROJECT))
-            handleAuthRequest(authProvider, HttpMethod.Delete, "/?project=$TEST_PROJECT").apply {
-                assertEquals(OperationStatus.SUCCESS.statusCode, response.status()?.value)
+            it.authRequest(authProvider, HttpMethod.Delete, "/?project=$TEST_PROJECT").apply {
+                assertEquals(OperationStatus.SUCCESS.statusCode, status.value)
             }
             assert(!hasProject(TEST_PROJECT))
-            handleAuthRequest(authProvider, HttpMethod.Delete, "/?project=$TEST_PROJECT").apply {
-                assertEquals(OperationStatus.NOT_EXISTS.statusCode, response.status()?.value)
+            it.authRequest(authProvider, HttpMethod.Delete, "/?project=$TEST_PROJECT").apply {
+                assertEquals(OperationStatus.NOT_EXISTS.statusCode, status.value)
             }
         }
     }

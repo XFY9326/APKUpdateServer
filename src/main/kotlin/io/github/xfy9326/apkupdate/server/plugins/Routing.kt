@@ -6,12 +6,12 @@ import io.github.xfy9326.apkupdate.beans.Version
 import io.github.xfy9326.apkupdate.core.ProjectManager
 import io.github.xfy9326.apkupdate.core.UpdateManager
 import io.github.xfy9326.apkupdate.core.VersionManager
-import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 private const val PROJECT = "project"
 private const val CHANNEL = "channel"
